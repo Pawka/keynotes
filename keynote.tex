@@ -1,0 +1,139 @@
+\documentclass[12pt,a4paper]{beamer}
+% \usepackage{amsmath}
+% \usepackage{amsfonts}
+% \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage[utf8x]{inputenc}
+\usepackage[L7x]{fontenc}
+\usepackage[lithuanian]{babel}
+
+\usetheme{Antibes} 
+\usecolortheme[RGB={155,192,12}]{structure} 
+
+\author{Povilas Balzaravičius}
+\title{Seni projektai, nauji įrankiai}
+\subtitle{VilniusPHP Susitikimas \#1}
+
+\begin{document}
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Įžanga}
+\begin{frame}{Kas aš toks?}
+    \begin{itemize}
+        \item Povilas Balzaravičius
+        \item \href{https://twitter.com/pawka}{@Pawka}
+        \item \href{https://github.com/pawka}{github.com/pawka}
+        \item \href{https://linkedin.com/in/pawka}{linkedin.com/in/pawka}
+        \item \href{http://pawka.linija.net}{pawka.linija.net}
+    \end{itemize}
+    \begin{center}
+        \includegraphics[scale=0.4]{img/estina.png}
+        \hskip1cm
+        \includegraphics[scale=0.4]{img/zce-php5-3-logo.png}
+    \end{center}
+\end{frame}
+
+\subsection{Seni projektai}
+\begin{frame}{Kas jie tokie?}
+    \begin{itemize}
+        \item PHP 4.x/5.x.
+        \item Kodas >= 4 metų senumo.
+        \item Niekur nematytas kodo stilius(-ai).
+        \item Nenaudojamas žmonijai žinomas karkasas.
+        \item \textbf{include}, \textbf{require} ir draugai.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Kylančios problemos}
+    \begin{itemize}
+        \item Didžiulės sąnaudos tvarkingai perrašyti kodą.
+        \item Naujo funkcionalumo pridėjimas reikalauja daug laiko.
+        \item Šlykštoka dirbti\dots
+    \end{itemize}
+\end{frame}
+
+\section{Projektų gaivinimas}
+
+\subsection{Kodo stilius}
+% MODIFY
+\begin{frame}{Stilius}
+    Naujas projektas - naujas programavimo stilius.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Standartas}
+
+    {\Huge PSR}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PSR Standartas}
+    {\large PHP Specification Request - programavimo stiliaus rekomendacija.}
+    \vskip15pt
+    \pause
+    Sudaro trys dokumentai:
+    \begin{description}
+        \item[PSR-0] Autoload standartas.
+        \pause
+        \item[PSR-1] ``Basic Coding Standard'' - Koduotė, PHP \textit{tagai}, konstantos, klasių ir metodų pavadinimai, \dots
+        \pause
+        \item[PSR-2] ``Coding Style Guide'' - Tarpai, skliausteliai ir kableliai :-)
+        \pause
+    \end{description}
+    \vskip10pt
+    {\small Standarto aprašymas: \href{https://github.com/php-fig/fig-standards/}{github.com/php-fig/fig-standards/}}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Sprendimas}
+
+    {\Huge php-cs-fixer}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PHP Coding Standards Fixer}
+    Įrankis skirtas kodo stiliaus tvarkymui pagal \textbf{PSR-1} ir \textbf{PSR-2} standartus.
+    \begin{itemize}
+        \item Autorius: Fabien Potencier
+        \item \url{http://cs.sensiolabs.org/}
+        \item Galimybė tvarkyti tik tam tikras sritis (identacija, skliaustų išdėstymas, \dots)
+        \item \dots ir/arba naudoti paruoštas konfigūracijas (sf20, sf21, magento, default).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PHP Coding Standards Fixer}
+    Naudojimas:
+    {\small
+    \begin{enumerate}
+        \item sudo wget http://cs.sensiolabs.org/get/php-cs-fixer.phar -O /usr/local/bin/php-cs-fixer
+        \item sudo chmod a+x /usr/local/bin/php-cs-fixer
+        \item php php-cs-fixer.phar fix /path/to/dir
+        \item Džiaugiamės tvarkingu kodu :-)
+    \end{enumerate}
+    }
+\end{frame}
+% TODO - add console sceenshot.
+
+\subsection{Išorinės bibliotekos}
+\begin{frame}
+    \frametitle{Problemos}
+    \begin{itemize}
+        \item Nepatogu įtrauktį į kodą.
+        \item Gali priklausyti nuo kitų bibliotekų.
+        \item Bibliotekos saugomos kartu su projekto kodu.
+        \item Nepatogu atnaujinti.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Sprendimas}
+
+    {\Huge Composer}
+\end{frame}
+
+\end{document}
