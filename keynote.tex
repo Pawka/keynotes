@@ -192,7 +192,6 @@
     \end{center}
 \end{frame}
 
-
 \begin{frame}[fragile]
 
     {\Huge Iš ko rinktis?}
@@ -242,4 +241,81 @@
     \url{framework.zend.com}
 \end{frame}
 
+\section{Mano pasirinkimas}
+\begin{frame}[fragile]
+
+    {\Huge Kaip dirbu aš?}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Darbo planas}
+    \begin{enumerate}
+        \item Stiliaus sutvarkymas.
+        \item Composer paruošimas.
+        \item DBAL (vienareikšmiškai \textbf{doctrine/dbal}).
+        \item Dependency Injection Container.
+        \item \textit{Routing'o} įdiegimas.
+        \item Naujo kodo rašymas teisinga tvarka.
+    \end{enumerate}
+\end{frame}
+
+\subsection{Dependency Injection Container}
+\begin{frame}[fragile]
+
+    {\Huge Dependency Injection Container}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kam reikalingas?}
+
+    \begin{itemize}
+        \item Objektų kūrimo taisyklės saugomos vienoje vietoje.
+        \item \textit{Lazy Loading} - objektai kuriami tik tada, kai jų prireikia.
+    \end{itemize}
+
+    \begin{block}{Fabien Potencier}
+        \dots\ when you need to manage a lot of different objects with a lot of dependencies, a Dependency Injection Container can be really helpful (think of a framework for instance).
+    \end{block}
+
+    Pasiskaitymui: \href{http://fabien.potencier.org/article/11/what-is-dependency-injection}{``What is Dependency Injection''} by @fabpot.
+    
+\end{frame}
+\begin{frame}
+    \frametitle{Pimple}
+    A simple Dependency Injection Container for PHP 5.3
+    \begin{itemize}
+        \item Autorius: Fabien Potencier
+        \item \url{pimple.sensiolabs.org}
+        \item Paprastas
+        \item Greitas
+        \item Integravimas - kelios eilutės.
+    \end{itemize}
+    \pause
+    \vskip15pt
+    {\color{red}Kodėl ne Symfony DependencyInjection?}
+\end{frame}
+\subsection{Routing}
+\begin{frame}[fragile]
+
+    {\Huge Routing}
+\end{frame}
+\begin{frame}
+    \frametitle{Kam reikalingas?}
+
+    \begin{itemize}
+        \item Iškviesti reikiamą \textit{Controller'io Actions'ą} pagal URL.
+        \item Iškviečiant priskirti kintamuosius iš URL.
+        \item URL generatorius pagal \textit{route'o} pavadinimą.
+        \item Dažnai senesni projektai neturi :-(
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Symfony Routing Component}
+
+    \begin{itemize}
+        \item \url{symfony.com/doc/current/components/routing/}
+        \item Integravimas - kelios eilutės.
+        \item Sprendžia visas anksčiau aprašytas problemas.
+    \end{itemize}
+\end{frame}
 \end{document}
