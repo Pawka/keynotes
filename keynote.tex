@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{lmodern}
+\usepackage{listings}
 \usepackage[utf8x]{inputenc}
 \usepackage[L7x]{fontenc}
 \usepackage[lithuanian]{babel}
@@ -38,6 +39,11 @@
 \end{frame}
 
 \subsection{Seni projektai}
+\begin{frame}[fragile]
+
+    {\Huge Seni projektai}
+\end{frame}
+
 \begin{frame}{Kas jie tokie?}
     \begin{itemize}
         \item PHP 4.x/5.x.
@@ -59,8 +65,9 @@
 \section{Projektų gaivinimas}
 
 \subsection{Kodo stilius}
-% MODIFY
-\begin{frame}{Stilius}
+\begin{frame}
+
+    {\Huge Stilius}\\
     Naujas projektas - naujas programavimo stilius.
 \end{frame}
 
@@ -106,26 +113,30 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{PHP Coding Standards Fixer}
-    Naudojimas:
+    \frametitle{PHP Coding Standards Fixer - naudojimas}
     {\small
-    \begin{enumerate}
-        \item sudo wget http://cs.sensiolabs.org/get/php-cs-fixer.phar -O /usr/local/bin/php-cs-fixer
-        \item sudo chmod a+x /usr/local/bin/php-cs-fixer
-        \item php php-cs-fixer.phar fix /path/to/dir
-        \item Džiaugiamės tvarkingu kodu :-)
-    \end{enumerate}
+        \begin{enumerate}
+            \item sudo wget http://cs.sensiolabs.org/get/php-cs-fixer.phar -O /usr/local/bin/php-cs-fixer
+            \item sudo chmod a+x /usr/local/bin/php-cs-fixer
+            \item php php-cs-fixer.phar fix /path/to/dir
+            \item Džiaugiamės tvarkingu kodu :-) \pause(dažniausiai)
+        \end{enumerate}
     }
 \end{frame}
 % TODO - add console sceenshot.
 
 \subsection{Išorinės bibliotekos}
+\begin{frame}[fragile]
+
+    {\Huge Išorinės bibliotekos}
+\end{frame}
+
 \begin{frame}
     \frametitle{Problemos}
     \begin{itemize}
         \item Nepatogu įtrauktį į kodą.
         \item Gali priklausyti nuo kitų bibliotekų.
-        \item Bibliotekos saugomos kartu su projekto kodu.
+        \item Saugomos kartu su projekto kodu.
         \item Nepatogu atnaujinti.
     \end{itemize}
 \end{frame}
@@ -134,6 +145,53 @@
     \frametitle{Sprendimas}
 
     {\Huge Composer}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer}
+
+    \begin{itemize}
+        \item Autorius: Jordi Boggiano
+        \item \url{http://getcomposer.org/}
+        \item Suranda, instaliuoja, atnaujina ir \textit{autoloadina} paketus.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer - naudojimas}
+        \begin{enumerate}
+            \item curl -s https://getcomposer.org/installer | php 
+            \item Parsiunčiamas {\color{orange}composer.phar}
+            \item {\color{orange}php composer.phar <komanda>}
+        \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer - paketų instaliavimas}
+
+    \begin{enumerate}
+        \item Susirandam paketą ir jo versiją:\\{\color{orange}php composer.phar search kažkas} arba \url{packagist.org}.
+        \item Pvz. \textbf{doctrine/dbal 2.3.0}.
+        \item Įtraukiam paketą į \textbf{composer.json}.
+        \item {\color{orange}php composer.phar install} (arba {\color{orange}update}).
+        \item Parsiųs paketus ir sugeneruos Autoload failus.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer - naudojimas}
+
+    composer.json pavyzdys
+    \begin{center}
+        \includegraphics[scale=0.5]{img/composer_json.png}
+    \end{center}
+    \pause
+    O tada\dots\\
+    \begin{center}
+        \includegraphics[scale=0.5]{img/autoload.png}
+    \end{center}
+
+
 \end{frame}
 
 \end{document}
