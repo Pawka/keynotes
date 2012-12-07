@@ -58,11 +58,16 @@
     \begin{itemize}
         \item Didžiulės sąnaudos tvarkingai perrašyti kodą.
         \item Naujo funkcionalumo pridėjimas reikalauja daug laiko.
+        \item Kažką pajudinus viskas griūna.
         \item Šlykštoka dirbti\dots
     \end{itemize}
 \end{frame}
 
 \section{Projektų gaivinimas}
+\begin{frame}
+
+    {\Huge Pradedam!}\\
+\end{frame}
 
 \subsection{Kodo stilius}
 \begin{frame}
@@ -74,7 +79,7 @@
 \begin{frame}[fragile]
     \frametitle{Standartas}
 
-    {\Huge PSR}
+    {\Huge PSR}\\
 \end{frame}
 
 \begin{frame}
@@ -116,9 +121,9 @@
     \frametitle{PHP Coding Standards Fixer - naudojimas}
     {\small
         \begin{enumerate}
-            \item sudo wget http://cs.sensiolabs.org/get/php-cs-fixer.phar -O /usr/local/bin/php-cs-fixer
-            \item sudo chmod a+x /usr/local/bin/php-cs-fixer
-            \item php php-cs-fixer.phar fix /path/to/dir
+            \item {\color{orange}sudo wget http://cs.sensiolabs.org/get/php-cs-fixer.phar -O /usr/local/bin/php-cs-fixer}
+            \item {\color{orange}sudo chmod a+x /usr/local/bin/php-cs-fixer}
+            \item {\color{orange}php php-cs-fixer.phar fix /path/to/dir}
             \item Džiaugiamės tvarkingu kodu :-) \pause(dažniausiai)
         \end{enumerate}
     }
@@ -128,7 +133,8 @@
 \subsection{Išorinės bibliotekos}
 \begin{frame}[fragile]
 
-    {\Huge Išorinės bibliotekos}
+    {\Huge Išorinės bibliotekos}\\
+    Naudojam tai, kas jau sukurta.
 \end{frame}
 
 \begin{frame}
@@ -160,8 +166,8 @@
 \begin{frame}
     \frametitle{Composer - naudojimas}
         \begin{enumerate}
-            \item curl -s https://getcomposer.org/installer | php 
-            \item Parsiunčiamas {\color{orange}composer.phar}
+            \item {\color{orange}curl -s https://getcomposer.org/installer | php} 
+            \item Parsiunčiamas \textbf{composer.phar}
             \item {\color{orange}php composer.phar <komanda>}
         \end{enumerate}
 \end{frame}
@@ -176,6 +182,11 @@
         \item {\color{orange}php composer.phar install} (arba {\color{orange}update}).
         \item Parsiųs paketus ir sugeneruos Autoload failus.
     \end{enumerate}
+\end{frame}
+
+\begin{frame}
+
+    \includegraphics[scale=0.3]{img/composer.png}
 \end{frame}
 
 \begin{frame}
@@ -289,10 +300,8 @@
         \item Paprastas
         \item Greitas
         \item Integravimas - kelios eilutės.
+        \item Primityvus (pvz. lyginant su Symfony DependencyInjection)
     \end{itemize}
-    \pause
-    \vskip15pt
-    {\color{red}Kodėl ne Symfony DependencyInjection?}
 \end{frame}
 \subsection{Routing}
 \begin{frame}[fragile]
@@ -318,4 +327,49 @@
         \item Sprendžia visas anksčiau aprašytas problemas.
     \end{itemize}
 \end{frame}
+\subsection{Teisingas kodas}
+\begin{frame}[fragile]
+
+    {\Huge Teisingas kodas}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Service-oriented architecture}
+
+    \begin{block}{Symfony Glossary}
+        A Service is a generic term for any PHP object that performs a specific
+        task. A service is usually used "globally", such as a database
+        connection object or an object that delivers email messages. In
+        Symfony2, services are often configured and retrieved from the service
+        container. An application that has many decoupled services is said to
+        follow a service-oriented architecture.
+    \end{block}
+\end{frame}
+\begin{frame}
+    \frametitle{SOA Robotikos taisyklės}
+    \begin{itemize}
+        \item Modeliai - žemiausias lygmuo, vieni apie kitus nežino.
+        \item Servisas žino apie jam priklausančius modelius.
+        \item Servisas gali žinoti apie kitus servisus.
+        \item Kontroleriai nežino nieko apie modelius ir naudoja TIK servisus.
+    \end{itemize}
+\end{frame}
+
+\section{Pabaiga}
+\begin{frame}
+    \frametitle{Apibendrinimas}
+
+    \begin{itemize}
+        \item Naują kodą rašykite tvarkingai.
+        \item Seną kodą perrašinėkite nedidelėmis dalimis ir tik tada, kai to reikia.
+        \item Naudokite jau sukurtus įrankius.
+        \item Sugaišit laiko sutvarkymui, bet laimėsit kurdami naujas funkcijas.
+    \end{itemize}
+\end{frame}
+\begin{frame}
+	\begin{center}
+        {\Huge Ačiū}
+	\end{center}
+\end{frame}
+
 \end{document}
