@@ -1,0 +1,375 @@
+\documentclass[12pt,a4paper]{beamer}
+% \usepackage{amsmath}
+% \usepackage{amsfonts}
+% \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage[utf8x]{inputenc}
+\usepackage[L7x]{fontenc}
+\usepackage[lithuanian]{babel}
+
+\usetheme{Antibes} 
+\usecolortheme[RGB={155,192,12}]{structure} 
+
+\author{Povilas Balzaravičius}
+\title{Seni projektai, nauji įrankiai}
+\subtitle{VilniusPHP Susitikimas \#1}
+
+\begin{document}
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Įžanga}
+\begin{frame}{Kas aš toks?}
+    \begin{itemize}
+        \item Povilas Balzaravičius
+        \item \href{https://twitter.com/pawka}{@Pawka}
+        \item \href{https://github.com/pawka}{github.com/pawka}
+        \item \href{https://linkedin.com/in/pawka}{linkedin.com/in/pawka}
+        \item \href{http://pawka.linija.net}{pawka.linija.net}
+    \end{itemize}
+    \begin{center}
+        \includegraphics[scale=0.4]{img/estina.png}
+        \hskip1cm
+        \includegraphics[scale=0.4]{img/zce-php5-3-logo.png}
+    \end{center}
+\end{frame}
+
+\subsection{Seni projektai}
+\begin{frame}[fragile]
+
+    {\Huge Seni projektai}
+\end{frame}
+
+\begin{frame}{Kas jie tokie?}
+    \begin{itemize}
+        \item PHP 4.x/5.x.
+        \item Kodas >= 4 metų senumo.
+        \item Niekur nematytas kodo stilius(-ai).
+        \item Nenaudojamas žmonijai žinomas karkasas.
+        \item \textbf{include}, \textbf{require} ir draugai.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Kylančios problemos}
+    \begin{itemize}
+        \item Didžiulės sąnaudos tvarkingai perrašyti kodą.
+        \item Naujo funkcionalumo pridėjimas reikalauja daug laiko.
+        \item Kažką pajudinus viskas griūna.
+        \item Šlykštoka dirbti\dots
+    \end{itemize}
+\end{frame}
+
+\section{Projektų gaivinimas}
+\begin{frame}
+
+    {\Huge Pradedam!}\\
+\end{frame}
+
+\subsection{Kodo stilius}
+\begin{frame}
+
+    {\Huge Stilius}\\
+    Naujas projektas - naujas programavimo stilius.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Standartas}
+
+    {\Huge PSR}\\
+\end{frame}
+
+\begin{frame}
+    \frametitle{PSR Standartas}
+    {\large PHP Specification Request - programavimo stiliaus rekomendacija.}
+    \vskip15pt
+    \pause
+    Sudaro trys dokumentai:
+    \begin{description}
+        \item[PSR-0] Autoload standartas.
+        \pause
+        \item[PSR-1] ``Basic Coding Standard'' - Koduotė, PHP \textit{tagai}, konstantos, klasių ir metodų pavadinimai, \dots
+        \pause
+        \item[PSR-2] ``Coding Style Guide'' - Tarpai, skliausteliai ir kableliai :-)
+        \pause
+    \end{description}
+    \vskip10pt
+    {\small Standarto aprašymas: \href{https://github.com/php-fig/fig-standards/}{github.com/php-fig/fig-standards/}}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Sprendimas}
+
+    {\Huge php-cs-fixer}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PHP Coding Standards Fixer}
+    Įrankis skirtas kodo stiliaus tvarkymui pagal \textbf{PSR-1} ir \textbf{PSR-2} standartus.
+    \begin{itemize}
+        \item Autorius: Fabien Potencier
+        \item \url{http://cs.sensiolabs.org/}
+        \item Galimybė tvarkyti tik tam tikras sritis (identacija, skliaustų išdėstymas, \dots)
+        \item \dots ir/arba naudoti paruoštas konfigūracijas (sf20, sf21, magento, default).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PHP Coding Standards Fixer - naudojimas}
+    {\small
+        \begin{enumerate}
+            \item {\color{orange}sudo wget http://cs.sensiolabs.org/get/php-cs-fixer.phar -O /usr/local/bin/php-cs-fixer}
+            \item {\color{orange}sudo chmod a+x /usr/local/bin/php-cs-fixer}
+            \item {\color{orange}php php-cs-fixer.phar fix /path/to/dir}
+            \item Džiaugiamės tvarkingu kodu :-) \pause(dažniausiai)
+        \end{enumerate}
+    }
+\end{frame}
+% TODO - add console sceenshot.
+
+\subsection{Išorinės bibliotekos}
+\begin{frame}[fragile]
+
+    {\Huge Išorinės bibliotekos}\\
+    Naudojam tai, kas jau sukurta.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Problemos}
+    \begin{itemize}
+        \item Nepatogu įtrauktį į kodą.
+        \item Gali priklausyti nuo kitų bibliotekų.
+        \item Saugomos kartu su projekto kodu.
+        \item Nepatogu atnaujinti.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Sprendimas}
+
+    {\Huge Composer}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer}
+
+    \begin{itemize}
+        \item Autorius: Jordi Boggiano
+        \item \url{http://getcomposer.org/}
+        \item Suranda, instaliuoja, atnaujina ir \textit{autoloadina} paketus.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer - naudojimas}
+        \begin{enumerate}
+            \item {\color{orange}curl -s https://getcomposer.org/installer | php} 
+            \item Parsiunčiamas \textbf{composer.phar}
+            \item {\color{orange}php composer.phar <komanda>}
+        \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer - paketų instaliavimas}
+
+    \begin{enumerate}
+        \item Susirandam paketą ir jo versiją:\\{\color{orange}php composer.phar search kažkas} arba \url{packagist.org}.
+        \item Pvz. \textbf{doctrine/dbal 2.3.0}.
+        \item Įtraukiam paketą į \textbf{composer.json}.
+        \item {\color{orange}php composer.phar install} (arba {\color{orange}update}).
+        \item Parsiųs paketus ir sugeneruos Autoload failus.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+
+    \includegraphics[scale=0.3]{img/composer.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Composer - naudojimas}
+
+    composer.json pavyzdys
+    \begin{center}
+        \includegraphics[scale=0.5]{img/composer_json.png}
+    \end{center}
+    \pause
+    O tada\dots\\
+    \begin{center}
+        \includegraphics[scale=0.5]{img/autoload.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+
+    {\Huge Iš ko rinktis?}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Symfony Components}
+    \url{symfony.com/components}
+    {\scriptsize
+        \begin{columns}[t]
+            \begin{column}{5cm}
+                \begin{itemize}
+                    \item BrowserKit
+                    \item ClassLoader
+                    \item Config
+                    \item Console
+                    \item CssSelector
+                    \item DependencyInjection
+                    \item DomCrawler
+                    \item EventDispatcher
+                    \item Finder
+                    \item Form
+                    \item HttpFoundation
+                \end{itemize}
+            \end{column}
+            \begin{column}{5cm}
+                \begin{itemize}
+                    \item HttpKernel	
+                    \item Locale	
+                    \item Process	
+                    \item Routing	
+                    \item Security	 	
+                    \item Serializer	 	
+                    \item Templating	
+                    \item Translation	 	
+                    \item Validator	 	
+                    \item Yaml
+                \end{itemize}
+            \end{column}
+        \end{columns}
+    }
+\end{frame}
+\begin{frame}
+    \frametitle{Zend Framework 2}
+
+    {\Huge 48 atskiri komponentai}\\
+    \url{framework.zend.com}
+\end{frame}
+
+\section{Mano pasirinkimas}
+\begin{frame}[fragile]
+
+    {\Huge Kaip dirbu aš?}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Darbo planas}
+    \begin{enumerate}
+        \item Stiliaus sutvarkymas.
+        \item Composer paruošimas.
+        \item DBAL (vienareikšmiškai \textbf{doctrine/dbal}).
+        \item Dependency Injection Container.
+        \item \textit{Routing'o} įdiegimas.
+        \item Naujo kodo rašymas teisinga tvarka.
+    \end{enumerate}
+\end{frame}
+
+\subsection{Dependency Injection Container}
+\begin{frame}[fragile]
+
+    {\Huge Dependency Injection Container}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kam reikalingas?}
+
+    \begin{itemize}
+        \item Objektų kūrimo taisyklės saugomos vienoje vietoje.
+        \item \textit{Lazy Loading} - objektai kuriami tik tada, kai jų prireikia.
+    \end{itemize}
+
+    \begin{block}{Fabien Potencier}
+        \dots\ when you need to manage a lot of different objects with a lot of dependencies, a Dependency Injection Container can be really helpful (think of a framework for instance).
+    \end{block}
+
+    Pasiskaitymui: \href{http://fabien.potencier.org/article/11/what-is-dependency-injection}{``What is Dependency Injection''} by @fabpot.
+    
+\end{frame}
+\begin{frame}
+    \frametitle{Pimple}
+    A simple Dependency Injection Container for PHP 5.3
+    \begin{itemize}
+        \item Autorius: Fabien Potencier
+        \item \url{pimple.sensiolabs.org}
+        \item Paprastas
+        \item Greitas
+        \item Integravimas - kelios eilutės.
+        \item Primityvus (pvz. lyginant su Symfony DependencyInjection)
+    \end{itemize}
+\end{frame}
+\subsection{Routing}
+\begin{frame}[fragile]
+
+    {\Huge Routing}
+\end{frame}
+\begin{frame}
+    \frametitle{Kam reikalingas?}
+
+    \begin{itemize}
+        \item Iškviesti reikiamą \textit{Controller'io Actions'ą} pagal URL.
+        \item Iškviečiant priskirti kintamuosius iš URL.
+        \item URL generatorius pagal \textit{route'o} pavadinimą.
+        \item Dažnai senesni projektai neturi :-(
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Symfony Routing Component}
+
+    \begin{itemize}
+        \item \url{symfony.com/doc/current/components/routing/}
+        \item Integravimas - kelios eilutės.
+        \item Sprendžia visas anksčiau aprašytas problemas.
+    \end{itemize}
+\end{frame}
+\subsection{Teisingas kodas}
+\begin{frame}[fragile]
+
+    {\Huge Teisingas kodas}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Service-oriented architecture}
+
+    \begin{block}{Symfony Glossary}
+        A Service is a generic term for any PHP object that performs a specific
+        task. A service is usually used "globally", such as a database
+        connection object or an object that delivers email messages. In
+        Symfony2, services are often configured and retrieved from the service
+        container. An application that has many decoupled services is said to
+        follow a service-oriented architecture.
+    \end{block}
+\end{frame}
+\begin{frame}
+    \frametitle{SOA Robotikos taisyklės}
+    \begin{itemize}
+        \item Modeliai - žemiausias lygmuo, vieni apie kitus nežino.
+        \item Servisas žino apie jam priklausančius modelius.
+        \item Servisas gali žinoti apie kitus servisus.
+        \item Kontroleriai nežino nieko apie modelius ir naudoja TIK servisus.
+    \end{itemize}
+\end{frame}
+
+\section{Pabaiga}
+\begin{frame}
+    \frametitle{Apibendrinimas}
+
+    \begin{itemize}
+        \item Naują kodą rašykite tvarkingai.
+        \item Seną kodą perrašinėkite nedidelėmis dalimis ir tik tada, kai to reikia.
+        \item Naudokite jau sukurtus įrankius.
+        \item Sugaišit laiko sutvarkymui, bet laimėsit kurdami naujas funkcijas.
+    \end{itemize}
+\end{frame}
+\begin{frame}
+	\begin{center}
+        {\Huge Ačiū}
+	\end{center}
+\end{frame}
+
+\end{document}
