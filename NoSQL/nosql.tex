@@ -1,0 +1,197 @@
+\documentclass[12pt,a4paper]{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[L7x]{fontenc}
+\usepackage[lithuanian]{babel}
+
+\usetheme{Copenhagen} 
+\usecolortheme[RGB={155,192,12}]{structure} 
+%\useoutertheme{infolines} %adds infoline at the bottom
+
+\author{Povilas Balzaravičius}
+\title{NoSQL duomenų bazės}
+\institute{M2 technologijos}
+
+\begin{document}
+\begin{frame}
+	\titlepage
+\end{frame}
+
+%\begin{frame}
+%	\frametitle{OUTLINE}
+%		\tableofcontents[part=1,pausesections]
+%\end{frame}
+
+\begin{frame}{SQL}
+	\textbf{SQL} - užklausų kalba, skirta manipuliavimui duomenimis reliacinėse duomenų bazėse.
+\end{frame}
+
+\begin{frame}{ACID}
+	\textbf{ACID} - savybės, užtikrinančios, kad DBVS veikia patikimai.
+	\vskip10pt
+	\begin{itemize}
+	\item Atomicity - užklausų transakcijos.
+	\item Consistency \textit{(nuoseklumas)} - duomenys nebus sugadinti po transakcijos nutraukimo.
+	\item Isolation - kitos operacijos negali prieiti prie duomenų, naudojamų transakcijos.
+	\item Durability - užtikrinimas, kad įvykdytų užklausų duomenys nebus prarasti.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{CAP}
+	\textbf{CAP} - paskirstytų sistemų veikimo principai.
+	\vskip10pt
+	\begin{itemize}
+		\item Consistency - užtikrina, kad įrašyti duomenys iškarto bus pasiekiami.
+		\item Availability - informacijos pasiekiamumas (replikacijos tarp serverių).
+		\item Partition tolerance - Duomenys gali būti nuskaitomi, jei dalies jų negalima gauti.
+		\vskip20pt
+		\item Vėlinimas - duomenų pateikimo sparta.
+		\item Lankstumas \textit{(elasticity)} - downtime laikas.
+	\end{itemize}
+\end{frame}
+
+%\subsection{NoSQL}
+%\subsubsection{Kas tai yra?}
+\begin{frame}{NoSQL - kas tai yra?}
+	\textbf{NoSQL} - duomenų bazių tipas ir kartu judėjimas, aktyvus pastaruosius 2 metus.
+	\vskip10pt
+	\begin{itemize}
+		\item Ne realiacinės duomenų bazės
+		\item Iš anksto neapibrėžtos duomenų struktūros (lentelės)
+		\item Nenaudojamos SQL užklausos
+		\item Dažniausiai nepalaiko JOIN operacijų
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Panaudojimas}
+	Pagrindinė paskirtis - sistemos apkrovimo sumažinimas.
+	\vskip10pt
+	\begin{itemize}
+		\item Duomenų saugojimas paskirstytose sistemose \textit{(horisontal scaling)}
+		\item Didelė aparta
+		\item Naudojama ne tik web aplikacijose
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Tipai}
+	\begin{itemize}
+	\item<1-> Document-oriented - \textit{saugomas duomenų rinkinys, leidžia duomenis atrinkti pagal laukus.}
+	\item<2-> Key-value - \textit{identifikuojama pagal vieną raktą.}
+	\item<3-> Column-oriented
+	\item<4-> ...
+	\item<4-> Object-oriented
+	\item<4-> XML
+	\item<4-> Graph
+	\item<4-> ...
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Populiariausios duomenų bazės}
+	\begin{itemize}
+	\item Memcachedb
+	\item Redis
+	\item MongoDB
+	\item CouchDB
+	\item Cassandra
+	\item Voldemort
+	\item ...
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{MemcacheDB}
+	\begin{itemize}
+	\item Key-value
+	\item Orientuotas į spartą
+	\item Naudojam mes :-) 
+	\item Duomenys saugomi RAM
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Redis}
+	\begin{itemize}
+	\item Key-value
+	\item Orientuotas į spartą
+	\item Memcached atitikmuo
+	\item Leidžia išsaugoti būseną į diską
+	\item Master-slave replikacijos (gerai skaitymui, blogai rašymui)
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{MongoDB}
+	\begin{itemize}
+	\item Document-oriented
+	\item Orientuojasi į spartą ir funkcionalumą
+	\item MongoDB ODM (Doctrine) for PHP
+	\item Palaiko ryšius tarp duomenų
+	\item Duomenys saugomi JSON
+	\item Master-slave replikacijos
+	\item Sourceforge (?)
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{CouchDB}
+	\begin{itemize}
+	\item Document-oriented
+	\item Turi viewsus
+	\item Duomenys saugomi JSON
+	\item REST API
+	\item Master-master replikacijos. Atskiros kopijos sinchronizuojasi tarpusavyje.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Cassandra}
+	\begin{itemize}
+	\item Column-oriented
+	\item Didelė sparta
+	\item Sukūrė Facebook
+	\item Naudoja Digg, Twitter, Reddit (iš memcached)
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Voldemort}
+	\begin{itemize}
+	\item Key-value
+	\item Automatinės replikacijos
+	\item Didelė sparta
+	\item Naudoja ir sukūrė LinkedIn
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Trūkumai ir problemos}
+	\begin{itemize}
+	\item Naujos sistemos - gali būti nepatikimos
+	\item NoSQL - nereiškia, kad nėra SQL injection
+	\item Ne visi įrankiai yra gerai išvystyti \textit{(pvz. pymongo)}
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Apibendrinimas}
+	\begin{itemize}
+	\item Nereikia stengtis pakeisti MySQL (neįsivaizduoju kaip tai įmanoma)
+	\item Naudoti, kai reikia paskirstyt duomenis per kelis serverius. Bet mums artimiausiu metu tai negresia.
+	\item Galima kurti spartos reikalaujančius modulius, naudojančius konkrečią duomenų bazę.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+	Ačiū
+	\end{center}
+\end{frame}
+
+
+\end{document}

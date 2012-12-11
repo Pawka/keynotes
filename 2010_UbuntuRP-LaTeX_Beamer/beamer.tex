@@ -1,0 +1,488 @@
+\documentclass[11pt,a4paper]{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings} %For syntax highlight
+\usepackage[L7x]{fontenc}
+\usepackage[lithuanian]{babel}
+\usepackage{graphics}
+\usepackage{hyperref}
+
+\usetheme{Antibes} 
+\usecolortheme[RGB={155,192,12}]{structure} 
+%\usecolortheme{albatros}
+
+\author{Povilas Balzaravičius}
+\title{Prezentacijų kūrimas su LaTeX Beamer}
+\subtitle{Ubuntu 10.10 release party}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{Kas aš?}
+    \begin{itemize}
+        \item Povilas Balzaravičius
+        \item Internete dar žinomas kaip Pawka
+        \item Web programuotojas
+        \item pavvka@gmail.com (+Jabber)
+        \item \href{http://pawka.linija.net/}{http://pawka.linija.net/}
+    \end{itemize}  
+\end{frame}
+
+
+\begin{frame}{Turinys}
+	\tableofcontents
+\end{frame}
+
+
+\section{Įžanga}
+\begin{frame}{Apie ką mes čia?}
+    \begin{itemize}
+        \item LaTeX - žymėjimo kalba ir sistema, skirta dokumentų rengimui.
+        \item Beamer klasė - skirta prezentacijų rengimui LaTeX kalba.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Kodėl LaTeX Beamer?}
+    \begin{itemize}
+        \item Nereikia rūpintis atvaizdavimu.
+        \item Tekstinis \textit{plain-text} turinys.
+        \item Suderinama su versijų kontrolės sistemomis.
+        \item Galima naudoti mėgstamą teksto redaktorių.
+        \item Programinio kodo žymėjimas \textit{(highlight)}.
+        \item Automatinė numeracija, turinys, ...
+        \item Nėra atvaizdavimo problemų (pdf).
+    \end{itemize}
+\end{frame}
+
+
+\section{Programinė įranga}
+\begin{frame}{Kaip pradėti naudotis?}
+    \begin{center}
+        \textbf{sudo apt-get install texlive littex}
+        \vskip15pt
+        \pause
+        ...ir bet kuris teksto redaktorius, pvz.\\
+        \textbf{sudo apt-get install texmaker}
+        \vskip15pt
+        \pause
+        \alert{Viso apie 700 MB. Mykolas prašė nesisiųsti :-)}
+    \end{center}
+\end{frame}
+
+\section{Prezentacijos kūrimas}
+\subsection{Temos}
+\begin{frame}[fragile]{Temų naudojimas}
+    \begin{itemize}
+        \item Beamer turi iš anksto paruoštas temas, kurios leidžia greitai pakeisti išvaizdą.
+        \item Trys tipai: išdėstymas, spalvos ir šriftai.
+        \item Naudojamos komantos: \verb|\usetheme{Tema}| ir \verb|\usecolortheme{Tema}|.
+        \item Žinoma jas galima redaguoti, bet tai išsiaiškinsit patys :-)
+        \item Temų sąrašas: \href{http://www.hartwork.org/beamer-theme-matrix/}{http://www.hartwork.org/beamer-theme-matrix/}
+    \end{itemize}
+\end{frame}
+
+
+\subsection{Skaidrės}
+\begin{frame}[fragile]
+    \frametitle{Skaidrės kūrimas}
+    Prezentacija susideda iš skaidrių :-) 
+    \vskip10pt
+    \begin{block}{Skaidrės kūrimas}
+        \begin{verbatim}
+        \begin{frame}
+            \frametitle{Antraštė}
+            Tekstas arba LaTeX kodas.
+        \end{frame}
+        \end{verbatim}
+    \end{block}
+    Ir gausim kažką panašaus į...
+\end{frame}
+\begin{frame}
+    \frametitle{Antraštė}
+    Tekstas arba LaTeX kodas.
+\end{frame}
+
+\subsection{Skyriai ir turinys}
+\begin{frame}[fragile]{Skyrių naudojimas}
+    \begin{itemize}
+        \item Tvarkingas dokumentas susideda iš skyrių.
+        \item Iš jų generuojamas turinys.
+        \item Beamer palaiko trijų lygių skyrius:
+        \begin{itemize}
+            \item \verb|\section{Pavadinimas}|
+            \item \verb|\subsection{sub-Pavadinimas}|
+            \item \verb|\subsubsection{sub-sub-Pavadinimas}|
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Turinio generavimas}
+    Tvarkingai surašius skyrius, galima sugeneruoti turinį.
+    \begin{block}{Kodas}
+\verb|\begin{frame}|\\
+\verb|\tableofcontents|\\
+\verb|\end{frame}|
+    \end{block}
+\end{frame}
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\subsection{Sąrašai}
+\begin{frame}
+    \frametitle{Sąrašai}
+    Kurdami prezentacijas dažnai naudojame sąrašus. Beamer turi tris sąrašų tipus:
+    \begin{description}
+        \item[itemize] Paprastas sąrašas
+        \item[enumerate] Sunumeruotas sąrašas
+        \item[description] Elementų sąrašas, su paaiškinimais. Šis sąrašas yra description tipo.
+    \end{description}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Paprastas sąrašas}
+    Sąrašų struktūra aprašoma panašiai. Kiekvienas sąrašo elementas pradedamas
+    \verb|\item| komanda. Paprastas sąrašas aprašomas taip:
+    \begin{columns}[t]
+        \begin{column}{5cm}
+            \begin{block}{Kodas}
+                \begin{lstlisting}
+\begin{itemize}
+\item Ubuntu
+\item Kubuntu
+\item Xubuntu 
+\end{itemize}
+                \end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{5cm}
+            \begin{block}{Rezultatas}
+                \begin{itemize}
+                    \item Ubuntu
+                    \item Kubuntu
+                    \item Xubuntu 
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Sunumeruotas sąrašas}
+    Sunumeruotą sąrašą gausime raktinį žodį itemize pakeitę į enumerate.
+    \begin{columns}[t]
+        \begin{column}{5cm}
+            \begin{block}{Kodas}
+                \begin{lstlisting}
+\begin{enumerate}
+\item Ubuntu
+\item Kubuntu
+\item Xubuntu 
+\end{enumerate}
+                \end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{5cm}
+            \begin{block}{Rezultatas}
+                \begin{enumerate}
+                    \item Ubuntu
+                    \item Kubuntu
+                    \item Xubuntu 
+                \end{enumerate}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Elementų sąrašas}
+    Description tipas neženkliai skiriasi nuo anksčiau minėtų. Prie kiekvieno
+    sąrašo elemento yra nurodomas pavadinimas ir jo paaiškinimas.
+    \begin{columns}[t]
+        \begin{column}{5cm}
+            \begin{block}{Kodas}
+                \begin{lstlisting}
+\begin{description}
+\item[Gnome] Ubuntu
+\item[KDE] Kubuntu
+\item[XFCE] Xubuntu 
+\end{description}
+                \end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{5cm}
+            \begin{block}{Rezultatas}
+                \begin{description}
+                \item[Gnome] Ubuntu
+                \item[KDE] Kubuntu
+                \item[XFCE] Xubuntu 
+                \end{description}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Tekstas ir lygiavimas}
+\begin{frame}[fragile]
+    \frametitle{Lygiavimas}
+    Galimi trys lygiavimo variantai:
+    \begin{description}
+    	\item[flushleft] Kairė
+    	\item[flushright] Dešinė
+    	\item[center] Centras
+    \end{description}  
+    \begin{columns}[t]
+        \begin{column}{5cm}
+    \begin{block}{Teksto centravimas}
+        \begin{lstlisting}
+			\begin{center}
+			Tekstas centre.
+			\end{center}
+        \end{lstlisting}
+    \end{block}
+        \end{column}
+        \begin{column}{5cm}
+            \begin{block}{Rezultatas}
+                \begin{center}
+                Tekstas centre.
+                \end{center}
+            \end{block}
+        \end{column}
+    \end{columns}    
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Atitraukimai}
+	\begin{itemize}
+		\item Teksto ir kitų objektų atitraukimui naudojamos \verb|\vskip| ir \verb|\hskip| komandos (\textit{vertical} ir \textit{horisontal}).
+		\item Komandos rašomos pagal šabloną \verb|\vskip<kiekis><vienetai>|.
+		\item Kiekis - skaičius, kuris nurodo kokiu atstumu atitraukti objektą. Gali būti ir neigiamas.
+		\item Vienetai: pt, cm (kiti?).  Nurodo kokiais vienetais matuoti atitraukimą.
+		\item Pavyzdžiai: \verb|\vskip10pt| \verb|\hskip-2cm|
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Atitraukimo pavyzdžiai}
+\hskip1cmPrieš šį tekstą parašyta \verb|\hskip1cm|.\\
+\pause
+\hskip2cmPrieš šį tekstą parašyta \verb|\hskip2cm|.\\
+\pause
+\hskip3cmPrieš šį tekstą parašyta \verb|\hskip3cm|.\\
+\pause
+\hskip4cmPrieš šį tekstą parašyta \verb|\hskip4cm|.\\
+\pause
+\vskip30ptPrieš šį tekstą parašyta \verb|\vskip30pt|.
+\pause
+\vskip-65pt
+\color{blue}{Prieš šį tekstą parašyta \verb|\vskip-65pt|.}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Teksto formatavimas}
+	Pagrindinės teksto formatavimo komandos:
+	
+	\begin{block}{Teksto komandos}
+		\begin{columns}[t]
+			\begin{column}{5cm}
+				\verb|\textbf{Labas}|\\
+				\verb|\textit{Labas}|\\
+				\verb|\textsc{Labas}|\\
+				\verb|\textsl{Labas}|\\
+				\verb|\texttt{Labas}|\\
+				\verb|\alert{Labas}|\\
+				\verb|\color{orange}{Labas}|\\
+				\verb|\structure{Labas}|
+			\end{column}
+			\begin{column}{5cm}
+				\textbf{Labas}\\
+				\textit{Labas}\\
+				\textsc{Labas}\\
+				\textsl{Labas}\\
+				\texttt{Labas}\\
+				\alert{Labas}\\
+				\color{orange}{Labas}\\
+				\structure{Labas}
+			\end{column}
+		\end{columns}
+	\end{block}
+\end{frame}
+
+
+\subsection{Kodo atvaizdavimas}
+\begin{frame}[fragile]{Listings paketas kodo atvaizdavimui}
+    \begin{itemize}
+        \item Dokumento pradžioje nurodom \verb|\usepackage{listings}|.
+        \item Leidžia atvaizduoti programavimo kalbų kodą.
+        \item Kodą galima įtraukti iš failo.
+        \item Palaiko daaaaugelio kalbų sintaksę.
+        \item Turi dar daugiau galimybių (eilučių numeravimas, atitraukimai, ...)
+        \item \href{http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+}{http://en.wikibooks.org/wiki/LaTeX/Packages/Listings}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kodo vaizdavimas dokumente}
+	\begin{block}{Kodas}
+\verb|\begin{lstlisting}[language=python]|\\
+\verb|def returnFalse():|\\
+\verb|    return False|\\
+\verb|\end{lstlisting}|
+	\end{block}
+	\begin{block}{rezultatas}
+    \begin{lstlisting}[language=python]
+def returnFalse():
+    return False
+    \end{lstlisting}
+	\end{block}
+\end{frame}
+\begin{frame}[fragile]{Kodo įtraukimas iš išorinių failų}
+    Kodą galima įtraukti iš išorinių failų. Patogu, nes kodas turi būti savo vietoje :-)
+    \begin{lstlisting}
+\lstset{language=python}
+    \lstinputlisting[firstline=2,lastline=7]...
+       ...{code/009.py}
+    \end{lstlisting}
+    \pause
+    \lstset{language=python}
+        \lstinputlisting[firstline=2,lastline=7]{code/009.py}
+\end{frame}
+
+\subsection{Atvaizdavimo eiliškumas}
+\begin{frame}{Atvaizdavimo eiliškumas, efektai arba overlays}
+	\begin{itemize}
+		\item WYSIWYG programos turi priemones, leidžiančias skaidrės objektus atvaizduoti tam tikra tvarka. Dažniausiai jos paremtos grafiniais efektais.
+		\item Beamer turi priemones, kurios taip pat leidžia nurodyti tvarką, kuria bus vaizduojami objektai.		
+		\item Elementai palaipsniui atidengiami naujuose PDF failo puslapiuose.
+		\item Angliškai \textit{overlays}, tačiau aš vadinu efektais :-)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Dokumento struktūra}
+	\begin{itemize}
+		\item Prezentaciją sudaro skaidrės.
+		\item Tą pačią skaidrę gali sudaryti keli pdf dokumento puslapiai (vadinkime juos žingsniais).
+		\item Taip galima vienoje skaidrėje elementus atvaizduoti ne visus iš karto.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Pauzė}
+	Jei objektai išdėlioti paeiliui, galima naudoti komandą \verb|\pause|. Tekstas, esantis po šios komanods, bus atvaizduotas kitame dokumento puslapyje.
+	\begin{block}{Kodas}
+		Eins \begin{color}{red}\textbackslash pause\end{color} zwei \begin{color}{red}\textbackslash pause\end{color} drei
+	\end{block}
+	\pause
+	\begin{block}{rezultatas}
+		Eins \pause zwei \pause drei
+	\end{block}
+\end{frame}
+\begin{frame}{Atvaizdavimo specifikacijos}
+	\begin{itemize}
+		\item Ką daryti jei norime elementus atvaizduoti ne paeiliui?
+		\item Galime naudoti atvaizdavimo specifikacijas \textit{(overlay specifications)}.
+		\item Jų dėka galima nurodyti kuriuo metu kuriuos objektus atvaizduoti.
+	\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Atvaizdavimo specifikacijos - formatas}
+	\begin{itemize}
+		\item Specifikacija aprašoma tarp ženklų \verb|<|, \verb|>|.
+		\item Tarp ženklų nurodoma kuriuo metu atvaizduoti objektą.
+		\item <1> - atvaizdavimas pirmame žingsnyje, <2-> - nuo antro žingsnio iki skaidrės pabaigos, <-3>, <2-4>, <1,3,4>...
+	\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Atvaizdavimo specifikacijos - pavyzdys}
+    \begin{columns}[t]
+        \begin{column}{5cm}
+            \begin{block}{Kodas}
+\begin{verbatim}
+\begin{itemize}
+    \item<1-> Ubuntu
+    \item<3,4> Kubuntu
+    \item<-3> Xubuntu 
+    \item<2-3> Edubntu
+\end{itemize}
+\end{verbatim}
+            \end{block}
+        \end{column}
+        \begin{column}{5cm}
+            \begin{block}{Rezultatas}
+                \begin{itemize}
+                    \item<1-> Ubuntu
+                    \item<3,4> Kubuntu
+                    \item<-3> Xubuntu 
+                    \item<2-3> Edubntu
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}[fragile]{Atvaizdavimo specifikacijos - pavyzdys}
+    Galima naudoti ne tik sąrašams.
+    \begin{columns}[t]
+        \begin{column}{5cm}
+            \begin{block}{Kodas}
+\begin{verbatim}
+\alert<1->{Ubuntu}\\
+\alert<3,4>{Kubuntu}\\
+\alert<-3>{Xubuntu}\\
+\alert<2-3>{Edubntu}\\
+\end{verbatim}
+            \end{block}
+        \end{column}
+        \begin{column}{5cm}
+            \begin{block}{Rezultatas}
+                \alert<1->{Ubuntu}\\
+                \alert<3,4>{Kubuntu}\\
+                \alert<-3>{Xubuntu}\\
+                \alert<2-3>{Edubntu}\\
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+\subsection{Grafika}
+\begin{frame}[fragile]{Grafinių elementų įkėlimas}
+    \begin{itemize}
+        \item Naudosim graphics paketą \verb|\usepackage{graphics}|.
+        \item Palaiko jpg, gif, png formatus.
+        \item \verb|\includegraphics[width=4cm]{img/berlin.png}|
+    \end{itemize}
+    \begin{center}
+    \includegraphics[width=4cm]{img/berlin.png} 
+    \end{center}
+\end{frame}
+
+\subsection{Lietuvybė}
+\begin{frame}[fragile]{Lietuviškų simbolių naudojimas}
+    Norėdami naudoti lietuviškus simbolius, turime dokumento pradžioje įtraukti šias kodo eilutes:
+    \begin{verbatim}
+    \usepackage[L7x]{fontenc}
+    \usepackage[lithuanian]{babel} 
+    \end{verbatim}
+\end{frame}
+
+\section{Pabaiga}
+\begin{frame}{Resursai}
+    \begin{itemize}
+        \item Beamer - \href{http://bitbucket.org/rivanvx/beamer/}{http://bitbucket.org/rivanvx/beamer/} 
+        \item Daug info - \href{http://en.wikibooks.org/wiki/LaTeX}{http://en.wikibooks.org/wiki/LaTeX}
+        \item Ši prezentacija - \href{http://bitbucket.org/pawka/keynotes/}{http://bitbucket.org/pawka/keynotes/}
+        \item TeX, LaTeX and Friends (Q\&A) - \href{http://tex.stackexchange.com/}{http://tex.stackexchange.com/} 
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\begin{center}
+	Ačiū
+	\end{center}
+\end{frame}
+
+
+\end{document}
