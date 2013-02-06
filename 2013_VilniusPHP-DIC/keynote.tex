@@ -8,19 +8,31 @@
 \usepackage[lithuanian]{babel}
 \usepackage{minted}
 
+% Theme
 \usetheme{Antibes} 
 \usecolortheme[RGB={155,192,12}]{structure} 
+
+% Code highlight setup
+\usemintedstyle{monokai}
+\definecolor{codebg}{rgb}{0.10, 0.11, 0.08}
+\newminted{php}{
+    linenos,
+    bgcolor=codebg,
+    firstline=2,
+    fontsize=\footnotesize,
+    gobble=4
+}
 
 \author{Povilas Balzaravičius}
 \title{Dependency Injection Containers}
 \subtitle{VilniusPHP Susitikimas \#3}
 
 \begin{document}
+\section{Įžanga}
 \begin{frame}
 	\titlepage
 \end{frame}
 
-\section{Įžanga}
 \begin{frame}{Kas aš toks?}
     \begin{itemize}
         \item Povilas Balzaravičius
@@ -43,6 +55,19 @@
 
     {\Huge DIC}
 \end{frame}
+
+\begin{phpcode}
+    <?php
+
+    class FeedGenerator {
+
+        protected $feed;
+
+        public function __construct() {
+            $this->feed = new SomeFeed();
+        }
+    }
+\end{phpcode}
 
 \begin{frame}
 	\begin{center}
