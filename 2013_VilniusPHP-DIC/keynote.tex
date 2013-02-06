@@ -19,7 +19,7 @@
     linenos,
     bgcolor=codebg,
     firstline=2,
-    fontsize=\footnotesize,
+    fontsize=\scriptsize,
     gobble=4
 }
 
@@ -43,21 +43,25 @@
     \end{itemize}
     \begin{center}
         \includegraphics[scale=0.4]{img/estina.png}
-        \hskip1cm
+        \hskip1.5cm
         \includegraphics[scale=0.4]{img/zce.png}
-        \hskip1cm
-        \includegraphics[scale=0.4]{img/ktu.png}
+        \hskip1.5cm
+        \includegraphics[scale=0.75]{img/ktu.png}
     \end{center}
 \end{frame}
 
-\subsection{DIC}
+\section{DIC}
+
+\subsection{Kam reikalingas Dependency Injection?}
 \begin{frame}[fragile]
 
-    {\Huge DIC}
+    {\Huge Kam reikalingas Dependency Injection?}
 \end{frame}
 
+\begin{frame}[fragile]{Kuo blogas šis kodas?}
 \begin{phpcode}
     <?php
+    namespace Feed;
 
     class FeedGenerator {
 
@@ -68,7 +72,179 @@
         }
     }
 \end{phpcode}
+\pause
+\begin{enumerate}
+    \item Sudėtinga parašyti testą.
+    \item Gali tekti keisti kodą modifikuojant Feed klasę.
+\end{enumerate}
+\end{frame}
 
+\begin{frame}[fragile]{Ką daryti?}
+    \begin{center}
+        {\Huge Iškelti vidinių objektų kūrimą už klasės ribų!}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Kodėl šis kodas geresnis?}
+\begin{phpcode}
+    <?php
+    namespace Feed;
+
+    class FeedGenerator {
+
+        protected $feed;
+
+        public function __construct(FeedInterface $feed) {
+            $this->feed = $feed;
+        }
+    }
+\end{phpcode}
+\begin{enumerate}
+    \item Patogu rašyti testus.
+    \item \$feed objektas nepriklauso nuo FeedGenerator klasės.
+    \item Modifikuojant FeedInterface klases, nereikės keisti FeedGenerator kodo.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Objektų kūrimas}
+\begin{phpcode}
+    <?php
+    $config = new \Doctrine\DBAL\Configuration();
+    //..
+    $connectionParams = array(
+        'dbname' => 'mydb',
+        'user' => 'user',
+        'password' => 'secret',
+        'host' => 'localhost',
+        'driver' => 'pdo_mysql',
+    );
+    $conn = \Doctrine\DBAL\DriverManager::getConnection(
+        $connectionParams, $config);
+    $productService = new Product($conn);
+    $feed = new \Feed\SomeFeed($productService);
+    $feedGenerator = new \Feed\FeedGenerator($feed);
+    //Maybe add objects to some registry.
+    //..
+
+\end{phpcode}
+\end{frame}
+
+\subsection{Kas yra Dependency Injection?}
+\begin{frame}
+	\begin{center}
+        {\footnotesize Tai visgi, kas yra tas}\\*
+        \vskip0.5cm
+        {\Huge Dependency Injection!}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Kas yra DI?}
+    \begin{itemize}
+        \item Projektavimo šablonas \emph{(design pattern)}.
+        \item Aktualus tik objektiniame programavime.
+        \item Leidžia atskirti komponentus \emph{(decoupling)}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{DI būdai}
+\begin{phpcode}
+    <?php
+    $feed = new Feed;
+
+    //Konstruktorius
+    $generator = new FeedGenerator($feed);
+
+    //Metodas (setter)
+    $generator = new FeedGenerator;
+    $generator->setFeed($feed);
+
+    //Atributas
+    $generator = new FeedGenerator;
+    $generator->feed = $feed;
+\end{phpcode}
+\end{frame}
+
+\section{DIC bibliotekos}
+\begin{frame}
+	\begin{center}
+        {\footnotesize Kam kurti savo jei yra..}\\*
+        \vskip0.5cm
+        {\Huge DIC bibliotekos}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Reikalavimai DI konteineriui}
+    \begin{itemize}
+        \item Turi veikti greitai.
+        \item Privalo dirbti su bet kokiu PHP objektu.
+        \item Objektai neturi žinoti apie DI konteinerį.
+        \item Nekurti objekto jei jis jau sukurtas.\footnote{Kai to reikia}
+    \end{itemize}
+\end{frame}
+
+\subsection{Pimple}
+\begin{frame}
+	\begin{center}
+        {\Huge Pimple}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Pimple}
+    A simple Dependency Injection Container for PHP 5.3.
+    \begin{itemize}
+        \item Autorius: Fabien Potencier
+        \item \url{pimple.sensiolabs.org}
+        \item Paprastas.
+        \item Greitas.
+        \item Integravimas - kelios eilutės.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Darbas su objektais}
+\begin{phpcode}
+    <?php
+    $container = new Pimple();
+    // ..
+
+    $container['feed.somefeed.name'] = 'somefeed';
+    $container['feed.somefeed.class'] = '\Feed\SomeFeed';
+
+    $container['feed.somefeed'] = function($c) {
+        return new $c['feed.somefeed.class'];
+    };
+
+    //Lazy loading
+    $container['feed.generator.class'] = '\Feed\FeedGenerator';
+    $container['feed.generator'] = $container->share(function($c) {
+        return new $c['feed.generator.class']($c['feed.somefeed']);
+    });
+
+    // ..
+    $manager = $container['feed.generator'];
+\end{phpcode}
+\end{frame}
+
+% \begin{frame}[fragile]{Objekto gavimas}
+% \begin{phpcode}
+%     <?php
+% \end{phpcode}
+% \end{frame}
+
+\subsection{Symfony Dependency Injection Component}
+\begin{frame}
+	\begin{center}
+        {\Huge Symfony Dependency Injection Component}
+	\end{center}
+\end{frame}
+
+\subsection{Zend Framework 2 Dependncy Injection}
+\begin{frame}
+	\begin{center}
+        {\Huge Zend Framework 2 Dependncy Injection}
+	\end{center}
+\end{frame}
+
+\section{Pabaiga}
 \begin{frame}
 	\begin{center}
         {\Huge Ačiū}
