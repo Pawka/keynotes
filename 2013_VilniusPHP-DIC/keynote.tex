@@ -426,6 +426,83 @@
 \end{yamlcode}
 \end{frame}
 
+
+\begin{frame}[fragile]{DI perdengimas}
+    \begin{itemize}
+        \item Palaiko YAML ir XML formatai.
+        \item Leidžia perdengti anksčiau aprašytas DI priklausomybes (pvz. dirbant su Symfony2).
+        \item Patogu naudoti skirtingas konfigūracijas: test, dev, live.
+    \end{itemize}
+    \vskip0.5cm
+\begin{phpcode}
+    <?php
+    use Symfony\Component\DependencyInjection\ContainerBuilder;
+    use Symfony\Component\Config\FileLocator;
+    use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+
+    $container = new ContainerBuilder();
+    $loader = new XmlFileLoader($container, new FileLocator(__DIR__));
+    $loader->load('services.xml');
+\end{phpcode}
+\end{frame}
+
+\begin{frame}[fragile]{Kompiliavimas}
+    \begin{itemize}
+        \item Konteineris \textbf{gali} būti kompiliuojamas.
+\begin{phpcode}
+    <?php
+    $container->compile();
+\end{phpcode}
+        \item Aptinkamos klaidos:
+            \begin{itemize}
+                \item Neegzistuojančios priklausomybės.
+                \item Ciklinės priklausomybės.
+            \end{itemize}
+        \item Atliekama optimizacija.
+        \item Sukompiliuotas rezultatas gali būti saugomas į diską ir naudojamas kaip \emph{cache'as}.\footnote{Pamenat spartos palyginimo rezultatus?}
+    \end{itemize}
+    \vskip0.5cm
+    P.S. Symfony2 tuo rūpinasi pagal nutylėjimą :-)
+\end{frame}
+
+\begin{frame}[fragile]{Sukompiliuoto rezultato saugojimas į diską}
+    \begin{itemize}
+        \item Naudojamos Dumper klasės.
+        \item Galima konvertuoti iš vieno formato į kitą.
+        \item Palaikomi formatai:
+            \begin{itemize}
+                \item PHP
+                \item XML
+                \item YAML
+                \item GraphWiz (\url{www.graphwiz.org})
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Sukompiliuoto rezultato saugojimas į diską}
+\begin{phpcode}
+    <?php
+    use Symfony\Component\DependencyInjection\ContainerBuilder;
+    use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+
+    $file = __DIR__ .'/cache/container.php';
+
+    if (file_exists($file)) {
+        require_once $file;
+        $container = new ProjectServiceContainer();
+    } else {
+        $container = new ContainerBuilder();
+        // ...
+        $container->compile();
+
+        $dumper = new PhpDumper($container);
+        file_put_contents($file, $dumper->dump());
+    }
+\end{phpcode}
+\vskip0.5cm
+ProjectServiceContainer - pavadinimas pagal nutylėjimą.
+\end{frame}
+
 \subsection{Zend Framework 2 Dependncy Injection}
 \begin{frame}
 	\begin{center}
@@ -441,6 +518,17 @@
         \item TAIP - nes DI verčia rašyti kodą teisingai.
     \end{itemize}
 \end{frame}
+
+\subsection{Resursai}
+\begin{frame}{Resursai}
+    \begin{itemize}
+        \item Symfony Dependency Injection component docs: \url{http://symfony.com/doc/current/components/dependency_injection/}
+        \item Fabien Potencier blog: What is dependency injection? \url{http://fabien.potencier.org/article/11/what-is-dependency-injection}
+        \item Inversion of Control Containers and the Dependency Injection pattern: \url{http://www.martinfowler.com/articles/injection.html}
+        \item Zend DI: \url{https://packages.zendframework.com/docs/latest/manual/en/modules/zend.di.introduction.html}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}
 	\begin{center}
         {\Huge Ačiū}
