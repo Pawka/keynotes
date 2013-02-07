@@ -12,9 +12,12 @@
 \usetheme{Antibes} 
 \usecolortheme[RGB={155,192,12}]{structure} 
 
+\definecolor{codebg}{rgb}{0.10, 0.11, 0.08}
+\definecolor{bashbg}{rgb}{0.95,0.95,0.95}
+\definecolor{xmlbg}{rgb}{0.20, 0.22, 0.18}
+
 % Code highlight setup
 \usemintedstyle{monokai}
-\definecolor{codebg}{rgb}{0.10, 0.11, 0.08}
 \newminted{php}{
     linenos,
     bgcolor=codebg,
@@ -22,9 +25,20 @@
     fontsize=\scriptsize,
     gobble=4
 }
-\definecolor{bashbg}{rgb}{0.95,0.95,0.95}
 \newminted{bash}{
     bgcolor=bashbg,
+    fontsize=\scriptsize,
+    gobble=4
+}
+\newminted{xml}{
+    linenos,
+    bgcolor=codebg,
+    fontsize=\scriptsize,
+    gobble=4
+}
+\newminted{yaml}{
+    linenos,
+    bgcolor=codebg,
     fontsize=\scriptsize,
     gobble=4
 }
@@ -347,6 +361,69 @@
         \item Greitas (teisingai naudojant).
         \item Pagal nutylėjimą naudojamas Symfony2 karkase.
     \end{itemize}
+\end{frame}
+
+\begin{frame}{Palaikomi formatai}
+    Prikalusomybes galima aprašyti šiais formatais:
+    \begin{itemize}
+        \item PHP
+        \item XML
+        \item YAML
+        \item INI (Palaiko tik parametrų aprašymus).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Naudojimas: PHP}
+\begin{phpcode}
+    <?php
+    use Symfony\Component\DependencyInjection\ContainerBuilder;
+    use Symfony\Component\DependencyInjection\Reference;
+
+    $container = new ContainerBuilder();
+
+    $container->setParameter('feed.somefeed.interval', '0 */6 * * *');
+    $container
+        ->register('feed.somefeed', 'SomeFeed')
+        ->addArgument('%feed.somefeed.interval%');
+
+    $container
+        ->register('feed.generator', 'FeedGenerator')
+        ->addArgument(new Reference('feed.somefeed'));
+\end{phpcode}
+\end{frame}
+
+\begin{frame}[fragile]{Naudojimas: XML}
+\begin{xmlcode}
+    <parameters>
+        <parameter key="feed.somefeed.interval">0 */6 * * *</parameter>
+    </parameters>
+
+    <services>
+        <service id="feed.somefeed" class="SomeFeed">
+            <argument>%feed.somefeed.interval%</argument>
+        </service>
+
+        <service id="feed.generator" class="FeedGenerator">
+            <argument type="service" id="feed.somefeed" />
+        </service>
+    </services>
+\end{xmlcode}
+\end{frame}
+
+\begin{frame}[fragile]{Naudojimas: YAML}
+\begin{yamlcode}
+    parameters:
+        # ...
+        feed.somefeed.interval: 0 */6 * * *
+
+    services:
+        feed.somefeed:
+            class:     SomeFeed 
+            arguments: [%feed.somefeed.interval%]
+        feed.generator:
+            class:     FeedGenerator
+            arguments: [@feed.somefeed]
+\end{yamlcode}
 \end{frame}
 
 \subsection{Zend Framework 2 Dependncy Injection}
