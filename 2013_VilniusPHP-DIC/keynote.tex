@@ -22,6 +22,12 @@
     fontsize=\scriptsize,
     gobble=4
 }
+\definecolor{bashbg}{rgb}{0.95,0.95,0.95}
+\newminted{bash}{
+    bgcolor=bashbg,
+    fontsize=\scriptsize,
+    gobble=4
+}
 
 \author{Povilas Balzaravičius}
 \title{Dependency Injection Containers}
@@ -50,40 +56,67 @@
     \end{center}
 \end{frame}
 
-\section{DIC}
-
-\subsection{Kam reikalingas Dependency Injection?}
-\begin{frame}[fragile]
-
-    {\Huge Kam reikalingas Dependency Injection?}
+\section{Dependency Injection}
+\subsection{Kas yra Dependency Injection?}
+\begin{frame}
+	\begin{center}
+        {\Huge Kas yra Dependency Injection?}
+	\end{center}
 \end{frame}
+
 
 \begin{frame}[fragile]{Kuo blogas šis kodas?}
 \begin{phpcode}
     <?php
-    namespace Feed;
-
     class FeedGenerator {
 
         protected $feed;
 
         public function __construct() {
-            $this->feed = new SomeFeed();
+            // Create feed every 6 hours.
+            $this->feed = new SomeFeed('* */6 * * *');
         }
     }
+    //..
+    $generator = new FeedGenerator;
 \end{phpcode}
 \pause
 \begin{enumerate}
     \item Sudėtinga parašyti testą.
     \item Gali tekti keisti kodą modifikuojant Feed klasę.
+    \item Teks modifikuoti FeedGenerator klasę, norint pakeisti SomeFeed vykdymo intervalą.
 \end{enumerate}
 \end{frame}
+
+\begin{frame}[fragile]{Ar dabar geriau?}
+\begin{phpcode}
+    <?php
+    class FeedGenerator {
+
+        protected $feed;
+
+        public function __construct($interval) {
+            $this->feed = new SomeFeed($interval);
+        }
+    }
+    //..
+    $generator = new FeedGenerator('* */6 * * *');
+\end{phpcode}
+\pause
+\begin{enumerate}
+    \item Sudėtinga parašyti testą.
+    \item Gali tekti keisti kodą modifikuojant Feed klasę.
+    \item SomeFeed klasė vis dar priklausoma nuo FeedGenerator.
+\end{enumerate}
+\end{frame}
+
 
 \begin{frame}[fragile]{Ką daryti?}
     \begin{center}
         {\Huge Iškelti vidinių objektų kūrimą už klasės ribų!}
     \end{center}
 \end{frame}
+
 
 \begin{frame}[fragile]{Kodėl šis kodas geresnis?}
 \begin{phpcode}
@@ -98,19 +131,23 @@
             $this->feed = $feed;
         }
     }
+    //..
+    $feed = new SomeFeed('* */6 * * *');
+    $generator = new FeedGenerator($feed);
 \end{phpcode}
 \begin{enumerate}
-    \item Patogu rašyti testus.
+    \item Patogu rašyti testus (vietoj Feed galima paduoti mock objektą).
     \item \$feed objektas nepriklauso nuo FeedGenerator klasės.
     \item Modifikuojant FeedInterface klases, nereikės keisti FeedGenerator kodo.
 \end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile]{Objektų kūrimas}
+    DI naudojimui konteineris nereikalingas.
+    \vskip0.5cm
 \begin{phpcode}
     <?php
     $config = new \Doctrine\DBAL\Configuration();
-    //..
     $connectionParams = array(
         'dbname' => 'mydb',
         'user' => 'user',
@@ -121,21 +158,14 @@
     $conn = \Doctrine\DBAL\DriverManager::getConnection(
         $connectionParams, $config);
     $productService = new Product($conn);
-    $feed = new \Feed\SomeFeed($productService);
+    $interval = "* */6 * * * *";
+    $feed = new \Feed\SomeFeed($interval);
+    $feed->setProductService($productService);
     $feedGenerator = new \Feed\FeedGenerator($feed);
     //Maybe add objects to some registry.
     //..
 
 \end{phpcode}
-\end{frame}
-
-\subsection{Kas yra Dependency Injection?}
-\begin{frame}
-	\begin{center}
-        {\footnotesize Tai visgi, kas yra tas}\\*
-        \vskip0.5cm
-        {\Huge Dependency Injection!}
-	\end{center}
 \end{frame}
 
 \begin{frame}{Kas yra DI?}
@@ -149,7 +179,7 @@
 \begin{frame}[fragile]{DI būdai}
 \begin{phpcode}
     <?php
-    $feed = new Feed;
+    $feed = new Feed("* */6 * * * *");
 
     //Konstruktorius
     $generator = new FeedGenerator($feed);
@@ -206,11 +236,13 @@
     $container = new Pimple();
     // ..
 
-    $container['feed.somefeed.name'] = 'somefeed';
+    $container['feed.somefeed.interval'] = '* */6 * * * *';
     $container['feed.somefeed.class'] = '\Feed\SomeFeed';
 
     $container['feed.somefeed'] = function($c) {
-        return new $c['feed.somefeed.class'];
+        return new $c['feed.somefeed.class'](
+            $c['feed.somefeed.interval'];
+        );
     };
 
     //Lazy loading
@@ -224,11 +256,73 @@
 \end{phpcode}
 \end{frame}
 
-% \begin{frame}[fragile]{Objekto gavimas}
-% \begin{phpcode}
-%     <?php
-% \end{phpcode}
-% \end{frame}
+\begin{frame}[fragile]{Išskaidymas į modulius}
+\begin{phpcode}
+    <?php
+    class FeedContainer extends Pimple {
+
+        public function __construct() {
+            $this['feed.somefeed.interval'] = '* */6 * * * *';
+            $this['feed.somefeed.class'] = '\Feed\SomeFeed';
+
+            $this['feed.somefeed'] = function($c) {
+                return new $c['feed.somefeed.class'](
+                    $c['feed.somefeed.interval'];
+                );
+            };
+
+            $this['feed.generator.class'] = '\Feed\FeedGenerator';
+            $this['feed.generator'] = $this->share(function($c) {
+                return new $c['feed.generator.class']($c['feed.somefeed']);
+            });
+        }
+    }
+\end{phpcode}
+\end{frame}
+
+\begin{frame}[fragile]{Išskaidymas į modulius}
+\begin{phpcode}
+    <?php
+    class GlobalContainer extends Pimple {
+
+        public function __construct() {
+            $this['feeds'] = $this->share(function($c) {
+                return new FeedContainer;
+            };
+        }
+    }
+
+    //..
+    $container = new GlobalContainer;
+    //Change value
+    $container['feeds']['feed.somefeed.interval'] = '* */12 * * * *';
+    $generator = $container['feeds']['feed.generator'];
+\end{phpcode}
+\end{frame}
+
+
+\begin{frame}[fragile]{Sparta}
+    Konteinerio kūrimas
+    \vskip0.5cm
+\begin{bashcode}
+    ./run-tests.sh 
+    Pimple
+    265K
+    579K
+    0.00086s
+    DependencyInjection
+    267K
+    931K
+    0.006124s
+    DependencyInjection (dumped)
+    688K
+    738K
+    0.000495s
+\end{bashcode}
+    \vskip0.25cm
+    \scriptsize{Šaltinis: \href{https://gist.github.com/igorw/3833123}{https://gist.github.com/igorw/3833123}}
+\end{frame}
+
 
 \subsection{Symfony Dependency Injection Component}
 \begin{frame}
@@ -245,6 +339,13 @@
 \end{frame}
 
 \section{Pabaiga}
+
+\subsection{Išvados}
+\begin{frame}{Ar verta naudoti DIC mažuose projektuose?}
+    \begin{itemize}
+        \item TAIP - nes DI verčia rašyti kodą teisingai.
+    \end{itemize}
+\end{frame}
 \begin{frame}
 	\begin{center}
         {\Huge Ačiū}
