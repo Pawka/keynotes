@@ -74,7 +74,7 @@
 
         public function __construct() {
             // Create feed every 6 hours.
-            $this->feed = new SomeFeed('* */6 * * *');
+            $this->feed = new SomeFeed('0 */6 * * *');
         }
     }
     //..
@@ -100,7 +100,7 @@
         }
     }
     //..
-    $generator = new FeedGenerator('* */6 * * *');
+    $generator = new FeedGenerator('0 */6 * * *');
 \end{phpcode}
 \pause
 \begin{enumerate}
@@ -132,7 +132,7 @@
         }
     }
     //..
-    $feed = new SomeFeed('* */6 * * *');
+    $feed = new SomeFeed('0 */6 * * *');
     $generator = new FeedGenerator($feed);
 \end{phpcode}
 \begin{enumerate}
@@ -140,6 +140,12 @@
     \item \$feed objektas nepriklauso nuo FeedGenerator klasės.
     \item Modifikuojant FeedInterface klases, nereikės keisti FeedGenerator kodo.
 \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Sveiki, aš DI}
+    \begin{center}
+        {\Huge Štai Jums Dependency Injection!}
+    \end{center}
 \end{frame}
 
 \begin{frame}[fragile]{Objektų kūrimas}
@@ -158,7 +164,7 @@
     $conn = \Doctrine\DBAL\DriverManager::getConnection(
         $connectionParams, $config);
     $productService = new Product($conn);
-    $interval = "* */6 * * * *";
+    $interval = "0 */6 * * *";
     $feed = new \Feed\SomeFeed($interval);
     $feed->setProductService($productService);
     $feedGenerator = new \Feed\FeedGenerator($feed);
@@ -169,17 +175,19 @@
 \end{frame}
 
 \begin{frame}{Kas yra DI?}
+
     \begin{itemize}
         \item Projektavimo šablonas \emph{(design pattern)}.
         \item Aktualus tik objektiniame programavime.
-        \item Leidžia atskirti komponentus \emph{(decoupling)}.
+        \item Atskiria komponentus \emph{(decoupling)}.
+        \item Standartizuoja ir suteikia galimybę centralizuoti objektų kūrimą Jūsų sistemoje.
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{DI būdai}
 \begin{phpcode}
     <?php
-    $feed = new Feed("* */6 * * * *");
+    $feed = new Feed("0 */6 * * *");
 
     //Konstruktorius
     $generator = new FeedGenerator($feed);
@@ -208,7 +216,7 @@
         \item Turi veikti greitai.
         \item Privalo dirbti su bet kokiu PHP objektu.
         \item Objektai neturi žinoti apie DI konteinerį.
-        \item Nekurti objekto jei jis jau sukurtas.\footnote{Kai to reikia}
+        \item Nekurti objekto jei jis jau sukurtas.\footnote{Kai to reikia.}
     \end{itemize}
 \end{frame}
 
@@ -236,12 +244,12 @@
     $container = new Pimple();
     // ..
 
-    $container['feed.somefeed.interval'] = '* */6 * * * *';
+    $container['feed.somefeed.interval'] = '0 */6 * * *';
     $container['feed.somefeed.class'] = '\Feed\SomeFeed';
 
     $container['feed.somefeed'] = function($c) {
         return new $c['feed.somefeed.class'](
-            $c['feed.somefeed.interval'];
+            $c['feed.somefeed.interval']
         );
     };
 
@@ -262,12 +270,12 @@
     class FeedContainer extends Pimple {
 
         public function __construct() {
-            $this['feed.somefeed.interval'] = '* */6 * * * *';
+            $this['feed.somefeed.interval'] = '0 */6 * * *';
             $this['feed.somefeed.class'] = '\Feed\SomeFeed';
 
             $this['feed.somefeed'] = function($c) {
                 return new $c['feed.somefeed.class'](
-                    $c['feed.somefeed.interval'];
+                    $c['feed.somefeed.interval']
                 );
             };
 
@@ -295,7 +303,7 @@
     //..
     $container = new GlobalContainer;
     //Change value
-    $container['feeds']['feed.somefeed.interval'] = '* */12 * * * *';
+    $container['feeds']['feed.somefeed.interval'] = '0 */12 * * *';
     $generator = $container['feeds']['feed.generator'];
 \end{phpcode}
 \end{frame}
@@ -320,7 +328,7 @@
     0.000495s
 \end{bashcode}
     \vskip0.25cm
-    \scriptsize{Šaltinis: \href{https://gist.github.com/igorw/3833123}{https://gist.github.com/igorw/3833123}}
+    \scriptsize{Šaltinis: \url{https://gist.github.com/igorw/3833123}}
 \end{frame}
 
 
@@ -329,6 +337,16 @@
 	\begin{center}
         {\Huge Symfony Dependency Injection Component}
 	\end{center}
+\end{frame}
+
+\begin{frame}{Symfony DIC}
+    \begin{itemize}
+        \item Symfony komponentas.
+        \item \url{http://symfony.com/components}
+        \item Daug galimybių.
+        \item Greitas (teisingai naudojant).
+        \item Pagal nutylėjimą naudojamas Symfony2 karkase.
+    \end{itemize}
 \end{frame}
 
 \subsection{Zend Framework 2 Dependncy Injection}
