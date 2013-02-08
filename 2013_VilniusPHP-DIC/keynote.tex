@@ -503,19 +503,93 @@
 ProjectServiceContainer - pavadinimas pagal nutylėjimą.
 \end{frame}
 
-\subsection{Zend Framework 2 Dependncy Injection}
-\begin{frame}
-	\begin{center}
-        {\Huge Zend Framework 2 Dependncy Injection}
-	\end{center}
+\begin{frame}[fragile]{Tagged servisai}
+    \begin{itemize}
+        \item \emph{Tag} - atributas, žymintis panašius objektus.
+        \item Leidžia vykdyti analogiškus veiksmus visiems pažymėtiems objektams.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Tagged servisai}
+    Modifikuojam FeedGenerator klasę, pridėdami kelių Feed objektų palaikymą:
+    \vskip0.5cm
+\begin{phpcode}
+    <?php
+    class FeedGenerator {
+
+        protected $feeds = array();
+
+        public function __construct() {
+        }
+
+        public function addFeed(FeedInterface $feed) {
+            $this->feeds[] = $feed;
+        }
+    }
+\end{phpcode}
+\end{frame}
+
+
+\begin{frame}[fragile]{Tagged servisai}
+    Turim aprašytas kelias skirtingas Feed klases.
+    \vskip0.5cm
+\begin{xmlcode}
+    <parameters>
+        <parameter key="feed.somefeed.interval">0 */6 * * *</parameter>
+        <parameter key="feed.otherfeed.interval">0 */12 * * *</parameter>
+    </parameters>
+
+    <services>
+        <service id="feed.somefeed" class="SomeFeed">
+            <argument>%feed.somefeed.interval%</argument>
+            <tag name="feed" />
+        </service>
+        <service id="feed.otherfeed" class="OtherFeed">
+            <argument>%feed.otherfeed.interval%</argument>
+            <tag name="feed" />
+        </service>
+
+        <service id="feed.generator" class="FeedGenerator" />
+    </services>
+\end{xmlcode}
+\end{frame}
+
+\begin{frame}[fragile]{Tagged servisai}
+\begin{phpcode}
+    <?php
+    use Symfony\Component\DependencyInjection\ContainerBuilder;
+    use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+    use Symfony\Component\DependencyInjection\Reference;
+
+    class FeedCompilerPass implements CompilerPassInterface
+    {
+        public function process(ContainerBuilder $container)
+        {
+            if (!$container->hasDefinition('feed.generator')) {
+                return;
+            }
+
+            $definition = $container->getDefinition('feed.generator');
+            $taggedServices = $container->findTaggedServiceIds('feed');
+            foreach ($taggedServices as $id => $attributes) {
+                $definition->addMethodCall('addFeed',
+                    array(new Reference($id)));
+            }
+        }
+    }
+\end{phpcode}
 \end{frame}
 
 \section{Pabaiga}
 
 \subsection{Išvados}
-\begin{frame}{Ar verta naudoti DIC mažuose projektuose?}
+\begin{frame}{Išvados}
     \begin{itemize}
-        \item TAIP - nes DI verčia rašyti kodą teisingai.
+        \item Norint pradėti naudoti DI, neprivaloma naudoti tam skirtos bibliotekos.
+        \item DI verčia kodą rašyti teisingai.
+        \item Paprasčiau atlikti pakeitimus.
+        \item Paprasčiau (įmanoma?) rašyti testus.
+        \item Ar verta DI naudoti egzistuojančiuose projektuose? TAIP (žr. aukščiau esančius punktus).
     \end{itemize}
 \end{frame}
 
@@ -532,6 +606,8 @@ ProjectServiceContainer - pavadinimas pagal nutylėjimą.
 \begin{frame}
 	\begin{center}
         {\Huge Ačiū}
+        \vskip1cm
+        Atsiliepimai: \url{https://joind.in/8105}
 	\end{center}
 \end{frame}
 
