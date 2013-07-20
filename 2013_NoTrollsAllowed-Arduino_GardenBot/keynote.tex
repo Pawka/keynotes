@@ -84,6 +84,19 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Arduino}
+
+    \begin{itemize}
+        \item Mikrokontroleris
+        \item 16 Mhz CPU
+        \item 0.5 Kb EEPROM
+        \item 3.3-5V
+        \item C-stiliaus kalba
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}
     \frametitle{Patirtis}
 	\begin{center}
         {\Huge NULL}
@@ -92,6 +105,8 @@
         (nesuprantu elektros)
     \end{center}
 \end{frame}
+
+% Papasakot apie arduino.
 
 \begin{frame}
     \frametitle{Ką esu nuveikęs?}
@@ -124,16 +139,64 @@
     
 \end{frame}
 
+\begin{frame}
+    \frametitle{Ką daro svajonių projektas?}
 
-- Nesuprantu elektronikos.
-- Programuotojams įdomu kontroliuoti analoginius dalykus.
+    \begin{itemize}
+        \item Stebi mikroklimatą
+        \item Renka statistiką
+        \item Laisto šiltnamį
+        \item Atidarinėja langus
+    \end{itemize}
+\end{frame}
 
-- Arduino!
--- Mikrokontroleris
--- 16 Mhz CPU
--- 0.5 EEPROM
--- 3.3-5V
--- C-stiliaus kalba
+\begin{frame}
+    \frametitle{Ką dabar daro svajonių projektas?}
+
+    \begin{itemize}
+        \item Matuoja drėgmę
+        \item Matuoja temperatūrą
+        \item Matuoja šviesą
+        \item Uždega LED'ą kai trūksta vandens :-)
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Schema}
+    \includegraphics[scale=0.2]{img/schema.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Duomenų perdavimas}
+
+    Duomenys siunčiami per USB. Klauso python skriptas (ateityje naudosiu XBee WiFi adapterius).\\
+    \vskip1cm
+    Protokolas: XXX;INFO
+
+    \begin{itemize}
+        \item XXX - komandos prefix'as.
+        \item INFO - Reikšmės/informacija (neprivaloma)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Komandos}
+
+    
+    IN (į kontrolerį):
+    \begin{itemize}
+        \item NFO - Išplėstinė informacija.
+        \item MOI;XX - Nustatyti drėgnumo ribą.
+        \item TIM;XX - Nustatyti duomenų siuntimo periodą sekundėmis.
+    \end{itemize}
+
+    OUT:
+    \begin{itemize}
+        \item DAT;MOISTURE;LIGHT;TEMPERATURE
+    \end{itemize}
+
+\end{frame}
 
 \section{Pabaiga}
 
@@ -147,8 +210,6 @@
 \begin{frame}
 	\begin{center}
         {\Huge Ačiū}
-        \vskip1cm
-        Atsiliepimai: \url{https://joind.in/8105}
 	\end{center}
 \end{frame}
 
