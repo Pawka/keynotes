@@ -18,25 +18,7 @@
 
 % Code highlight setup
 \usemintedstyle{monokai}
-\newminted{php}{
-    linenos,
-    bgcolor=codebg,
-    firstline=2,
-    fontsize=\scriptsize,
-    gobble=4
-}
-\newminted{bash}{
-    bgcolor=bashbg,
-    fontsize=\scriptsize,
-    gobble=4
-}
-\newminted{xml}{
-    linenos,
-    bgcolor=codebg,
-    fontsize=\scriptsize,
-    gobble=4
-}
-\newminted{yaml}{
+\newminted{c}{
     linenos,
     bgcolor=codebg,
     fontsize=\scriptsize,
@@ -106,7 +88,20 @@
     \end{center}
 \end{frame}
 
-% Papasakot apie arduino.
+
+\begin{frame}[fragile]{Kaip veikia?}
+\begin{ccode}
+    void setup() {                
+        pinMode(OUPTUT_LED_PIN, OUTPUT);
+        pinMode(MOISTURE_LED_PIN, OUTPUT);
+        Serial.begin(9600);
+    }
+
+    void loop() {
+        //Logika...
+    }
+\end{ccode}
+\end{frame}
 
 \begin{frame}
     \frametitle{Ką esu nuveikęs?}
@@ -147,6 +142,7 @@
         \item Renka statistiką
         \item Laisto šiltnamį
         \item Atidarinėja langus
+        \item Nuperka alaus
     \end{itemize}
 \end{frame}
 
@@ -170,7 +166,7 @@
 \begin{frame}
     \frametitle{Duomenų perdavimas}
 
-    Duomenys siunčiami per USB. Klauso python skriptas (ateityje naudosiu XBee WiFi adapterius).\\
+    Duomenys siunčiami per USB. Klauso python skriptas.\\
     \vskip1cm
     Protokolas: XXX;INFO
 
@@ -182,7 +178,6 @@
 
 \begin{frame}
     \frametitle{Komandos}
-
     
     IN (į kontrolerį):
     \begin{itemize}
@@ -198,12 +193,55 @@
 
 \end{frame}
 
+\begin{frame}
+    \frametitle{Kodėl įdomu?}
+    Web programuotojui retai sutinkamos problemos.
+    \vskip1cm
+    \begin{itemize}
+        \item EEPROM vienu adresu saugoma maksimali reikšmė - 255. Kaip saugot didesnes reikšmes?
+        \item Kaip neblokuoti centrinio ciklo? 
+        \item Kaip sutilpti (atminties atžvilgiu)?
+        \item Kaip minimizuoti jungčių naudojimą?
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Statistika}
+
+    \begin{center}
+        Vakar perkeldamas filmą suformatavau flash'ą su duomenim :-(
+    \end{center}
+
+    \pause
+    Kiek pamenu\ldots
+    \begin{itemize}
+        \item Naktį drėgmės kritimas minimalus.
+        \item Kiek prilaistau, mano buto sąlygomis išgaruoja per 3 dienas.
+        \item Šviesos kreivėje matosi kada einu miegot (įjungiama/išjungiama šviesa) :-)
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ateitis}
+
+    \begin{itemize}
+        \item StatsD + Graphite naudojimas duomenų monitoringui (nespėjau).
+        \item Duomenų siuntimas/gavimas per WiFi (Xbee modulis).
+        \item Daugiau analoginių veiksmų (langų atidarymas, laistymas). Pritaikymas šiltnamiui.
+        \item Daugiau konfigūracijos aukščiau aprašytiems veiksmams.
+    \end{itemize}
+    
+\end{frame}
+
 \section{Pabaiga}
 
 \subsection{Išvados}
 \begin{frame}{Išvados}
     \begin{itemize}
-        \item ?
+        \item Arduino - super paprasta.
+        \item Neperkelinėti filmų išgėrus alaus.
     \end{itemize}
 \end{frame}
 
