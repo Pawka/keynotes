@@ -1,0 +1,155 @@
+\documentclass[12pt,a4paper]{beamer}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage[utf8x]{inputenc}
+\usepackage[L7x]{fontenc}
+\usepackage[lithuanian]{babel}
+\usepackage{minted}
+
+% Theme
+\usetheme{Antibes} 
+\usecolortheme[RGB={155,192,12}]{structure} 
+
+\definecolor{codebg}{rgb}{0.10, 0.11, 0.08}
+\definecolor{bashbg}{rgb}{0.95,0.95,0.95}
+\definecolor{xmlbg}{rgb}{0.20, 0.22, 0.18}
+
+% Code highlight setup
+\usemintedstyle{monokai}
+\newminted{php}{
+    linenos,
+    bgcolor=codebg,
+    firstline=2,
+    fontsize=\scriptsize,
+    gobble=4
+}
+\newminted{bash}{
+    bgcolor=bashbg,
+    fontsize=\scriptsize,
+    gobble=4
+}
+\newminted{xml}{
+    linenos,
+    bgcolor=codebg,
+    fontsize=\scriptsize,
+    gobble=4
+}
+\newminted{yaml}{
+    linenos,
+    bgcolor=codebg,
+    fontsize=\scriptsize,
+    gobble=4
+}
+
+\author{Povilas Balzaravičius}
+\title{Augalų monitoringas su Arduino}
+\subtitle{No Trolls Allowed 2013}
+
+\begin{document}
+\section{Įžanga}
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}{Kas aš toks?}
+    \begin{itemize}
+        \item Povilas Balzaravičius
+        \item \href{https://twitter.com/pawka}{@Pawka}
+        \item \href{https://github.com/pawka}{github.com/pawka}
+        \item \href{https://linkedin.com/in/pawka}{linkedin.com/in/pawka}
+        \item \href{http://pawka.linija.net}{pawka.linija.net}
+    \end{itemize}
+    \begin{center}
+        \includegraphics[scale=0.4]{img/estina.png}
+        \hskip1.5cm
+        \includegraphics[scale=0.4]{img/zce.png}
+        \hskip1.5cm
+        \includegraphics[scale=0.75]{img/ktu.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Analog - įdomu!}
+
+    \begin{center}
+        Programuotojams įdomu kontroliuoti analoginius dalykus.
+    \end{center}
+    \pause
+    \begin{center}
+        {\Huge Išeitis - Arduino!}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Patirtis}
+	\begin{center}
+        {\Huge NULL}
+	\end{center}
+    \begin{center}
+        (nesuprantu elektros)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ką esu nuveikęs?}
+
+    \pause
+    \begin{itemize}
+        \item Mirksintį LED'ą :-|
+        \pause
+        \item Termometrą (dafuq?)
+        \pause
+        \item Prijungęs LED matricą (???)
+        \pause
+        \item Sąsają NAS'ui. (atsibodo)
+    \end{itemize}
+    \pause
+    \begin{center}
+        NUOBODU!
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Svajonių projektas}
+
+    \begin{center}
+        {\Huge Garden Bot*}
+    \end{center}
+
+    \vskip1cm
+    {\small *Įtakotas uošvienės.}
+    
+\end{frame}
+
+
+- Nesuprantu elektronikos.
+- Programuotojams įdomu kontroliuoti analoginius dalykus.
+
+- Arduino!
+-- Mikrokontroleris
+-- 16 Mhz CPU
+-- 0.5 EEPROM
+-- 3.3-5V
+-- C-stiliaus kalba
+
+\section{Pabaiga}
+
+\subsection{Išvados}
+\begin{frame}{Išvados}
+    \begin{itemize}
+        \item ?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+        {\Huge Ačiū}
+        \vskip1cm
+        Atsiliepimai: \url{https://joind.in/8105}
+	\end{center}
+\end{frame}
+
+\end{document}
